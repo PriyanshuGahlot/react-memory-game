@@ -22,9 +22,10 @@ function Cards(){
     ].sort(() => Math.random() - 0.5))
 
     const [prev, setPrev] = useState(-1)
+    const [count, setCount] = useState(0)
 
     function check(current){
-        if(items[current].id == items[prev].id){
+        if(items[current].id === items[prev].id){
             items[current].stat = "correct"
             items[prev].stat = "correct"
             setItems([...items])
@@ -40,15 +41,21 @@ function Cards(){
                 setPrev(-1)
             }, 1000)
         }
+        setTimeout(() => {
+            setCount(0)
+        }, 1020);
     }
 
     function handleClick(id){
-        if(prev === -1){
-            items[id].stat = "active"
-            setItems([...items])
-            setPrev(id)
-        }else{
-            check(id)
+        if(items[id].stat != "active" && count<2 && items[id].stat != "correct"){
+            setCount(count+1)
+            if(prev === -1){
+                items[id].stat = "active"
+                setItems([...items])
+                setPrev(id)
+            }else{
+                check(id)
+            }
         }
     }
 
